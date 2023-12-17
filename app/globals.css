@@ -8,7 +8,7 @@ body {
   @apply text-gray-500 m-8;
 }
 h1, h2 {
-  @apply font-bold text-primary text-lg;
+  @apply font-bold text-violet-500 text-lg;
 }
 main {
   @apply max-w-5xl my-12 mx-auto px-8;
@@ -23,9 +23,9 @@ p > a {
 /* nav styles */
 nav {
   @apply
-    pb-4
+    pb-2
     border-b-2 border-gray-200
-    flex items-center gap-5 
+    flex items-center gap-5
     my-10 mx-auto 
     max-w-5xl;
 }
