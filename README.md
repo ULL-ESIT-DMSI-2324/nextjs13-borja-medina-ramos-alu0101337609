@@ -1,37 +1,30 @@
-## Next.js Master Class
-This repo contains all the course files for the Next.js Master Class on Net Ninja Pro. There is a branch for every lesson. Select the lesson you need from the branch dropdown.
+## Código de /ticket/[id].jsx
 
-Visit [Net Ninja Pro](https://netninja.dev) to view this course and many more.
+- Dicho archivo contiene dos funciones que permitirá dinámicamente seleccionar el ticket correspondiente:
 
-## Getting Started with the Project
+    - La función getTicket toma un "id" único para especificar un problema. Luego, solicita a una dirección web (http://localhost:4000/tickets/${id}) para recopilar todos los detalles vinculados con ese problema. Posteriormente, devuelve estos datos en un formato fácil de entender, similar a un archivo de datos. Respecto al componente TicketDetails, su tarea es recibir información variable de la URL, como el "id" del problema, y emplear la función getTicket para adquirir todos los detalles particulares de ese problema. Una vez que posee estos datos, los muestra directamente en la página web, exponiendo elementos como el título, el autor, el contenido y la prioridad del problema.
 
-First, run the development server:
+## Rutas dinámicas
 
+- El fichero [id].jsx localizado en el directorio /ticket, es comúnmente empleado en Next.js para gestionar rutas dinámicas. El formato [id] denota que esta página puede recibir un parámetro nombrado id a través de la URL, siendo el nombre del archivo [id].jsx. Cuando un usuario visita una URL como /ticket/123, Next.js interpretará que 123 es el valor del parámetro id y ejecutará el archivo [id].jsx. En este fichero, puedes usar el valor de id para llevar a cabo acciones concretas, como cargar los detalles del ticket correspondiente a ese id desde una fuente de datos (por ejemplo, una base de datos o una API) y presentar dicha información en la página.
+
+## Instalacion y uso de Json-Server
+
+### Paso 1: Instalación de json-server
+Nos debemos asegurar de tener Node.js y npm instalados. Luego, ejecutamos el siguiente comando para instalar `json-server` globalmente:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm install -g json-server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Paso 2: Crear el archivo `bd.json`
+Creamos un archivo llamado `bd.json` en la carpeta `_data` con los datos proporcionados, es decir los tickets.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Paso 3: Iniciar json-server
+En la terminal, navegamos a la carpeta principal del proyecto y ejecuta el siguiente comando:
+```bash
+json-server --watch _data/bd.json --port 4000
+```
+Esto iniciará `json-server` y observará el archivo `bd.json` en la carpeta `_data`. El servidor estará disponible en `http://localhost:4000`.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Paso 4: Acceder a los datos
+Ahora, podemos acceder (como con las funciones de la ruta dinamica) a los datos utilizando solicitudes HTTP, por ejemplo, una solicitud GET a `http://localhost:4000/tickets` para obtener la lista de tickets (que es lo que deseamos en primera instancia)
