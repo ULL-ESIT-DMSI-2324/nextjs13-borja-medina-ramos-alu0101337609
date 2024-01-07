@@ -1,11 +1,24 @@
 import Link from "next/link"
+import {notfound} from "next/navigation"
+
+const dynamicParams = false;
+
+async function getStaticParams() {
+  const res = await fetch("http://localhost:4000/tickets")
+  const tickets = await res.json()
+  return tickets.map((ticket) => ({
+    id: ticket.id}));
+}
 
 async function getTickets() {
   const res = await fetch('http://localhost:4000/tickets', {
     next: {
-      revalidate: 0 // use 0 to opt out of using cache
+      revalidate: 60
     }
   })
+  if (!res.ok) {
+    notfound
+  }
 
   return res.json()
 }
