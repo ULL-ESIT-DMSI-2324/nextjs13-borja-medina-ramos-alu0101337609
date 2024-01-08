@@ -1,45 +1,26 @@
-### Static Rendering en Next.js 13
+### Componente de Página No Encontrada en React
+
+# Página 404 personalizada.
+El archivo `not-found.jsx` contiene un componente de React diseñado para manejar el escenario de error 404, indicando que la página solicitada no ha sido encontrada. Aquí explicamos cada parte del código:
 
 #### Importaciones
-```javascript
-import Link from "next/link"
-import { notFound } from "next/navigation";
+```jsx
+import React from 'react'
+import Link from 'next/link'
 ```
+- Importamos la biblioteca React y el componente `Link` de Next.js para facilitar la creación de enlaces entre páginas como se ha seguido haciendo en lecciones pasadas.
 
-#### Constante `dynamicParams`
-```javascript
-export const dynamicParams = true;
-```
-- Esta constante la utilizaremos como indicador de que los parámetros son dinámicos. Nota: Hay un error tipográfico en el nombre de la constante (`dynamicParams` en lugar de `dinamicParams`).
-
-#### Función `generateStaticParams`
-```javascript
-export async function generateStaticParams() {
-  const res = await fetch('http://localhost:4000/tickets');
-  const tickets = await res.json();
-  return tickets.map((ticket) => ({
-    id: ticket.id
-  }));
+#### Componente `NotFound`
+```jsx
+export default function NotFound() {
+  return (
+    <main className='text-center'>
+      <h2 className='text-3xl'>Se ha producido un problema.</h2>
+      <p>No se ha encontrado el sitio que estabas buscando.</p>
+      <p>Para volver al menú principal, clickea sobre <Link href='/'>Menú principal</Link></p>
+    </main>
+  )
 }
 ```
-- Generamos parámetros estáticos para páginas generadas de manera estática.
-- Realizamos una solicitud a 'http://localhost:4000/tickets', obteniendo un array de tickets y los mapeamos a un array de objetos con la propiedad `id`.
-
-#### Función `getTickets`
-```javascript
-async function getTickets() {
-  const res = await fetch('http://localhost:4000/tickets', {
-    next: {
-      revalidate: 60
-    }
-  });
-  if (!res.ok) {
-    notFound();
-  }
-
-  return res.json();
-}
-```
-- Realizamos una solicitud a 'http://localhost:4000/tickets' con una configuración adicional para la revalidación de la caché (60 segundos).
-- Si la respuesta no tiene exito (código HTTP diferente de 200), llamamos a la funcion `notFound()` importada desde next/navigation.
-
+- Formamos un mensaje de error  para los usuarios cuando se encuentra un error 404, es decir que la ruta que han seguido no se encuentra en el sitio web.
+- Incluimos un enlace al menú principal utilizando el componente `Link` de Next.js.
