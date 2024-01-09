@@ -1,68 +1,24 @@
-### Menú de Carga y la componente Suspense
+**Resumen:**
+El  código de la lección actual representa un formulario de creación de tickets recopilando información como el título, el cuerpo y la prioridad del ticket, y luego realiza una solicitud POST a un servidor local en `http://localhost:4000/tickets`. Después de la creación exitosa del ticket, la página se actualiza y se redirige a la lista de tickets.
 
-#### Archivo: `Tickets.jsx`
+**Explicación:**
+1. **Importación de Módulos:**
+   - `useRouter` y `useState` se importan desde las bibliotecas `next/navigation` y `react`, respectivamente.
+  
+2. **Componente Funcional:**
+   - Se define un componente funcional llamado `CreateForm`.
 
-```jsx
-import TicketList from "./TicketList";
-import { Suspense } from "react";
-import Loading from "../loading";
+3. **Estado del Componente:**
+   - Se utilizan los hooks de estado (`useState`) para gestionar el estado del título, el cuerpo, la prioridad y el indicador de carga (`isLoading`).
 
-export default function Tickets() {
-  return (
-    <main>
-      <nav>
-        <div>
-          <h2>Tickets</h2>
-          <p><small>Actualmente abiertos.</small></p>
-        </div>
-      </nav>
-      <Suspense fallback={<Loading />}>
-        <TicketList />
-      </Suspense>
-    </main>
-  )
-}
-```
+4. **Manejo del Envío del Formulario:**
+   - `handleSubmit` se encarga de manejar el envío del formulario. Primero, previene el comportamiento predeterminado del formulario y establece `isLoading` en `true`.
+   - Luego, crea un objeto `newTicket` con la información del formulario y realiza una solicitud POST al servidor local utilizando `fetch`.
+   - Si la respuesta del servidor tiene un estado de 201 (creado), se actualiza y redirige la página a '/tickets'.
 
-- `import TicketList from "./TicketList";`: Importa el componente `TicketList` desde el archivo `TicketList.jsx`.
+5. **Interfaz del Usuario:**
+   - El formulario se incluye campos para el título, el cuerpo y la prioridad del ticket, junto con un botón para enviar el formulario.
+   - Se utilizan funciones de cambio (`onChange`) para actualizar los estados cuando se introducen datos en los campos.
 
-- `import { Suspense } from "react";`: Importa el componente `Suspense` de React. Se utiliza para gestionar la carga de componentes de manera diferida, mostrando un componente de carga mientras el componente principal se carga.
-
-- `import Loading from "../loading";`: Importa el componente `Loading` desde el archivo `loading.jsx`.
-
-- `export default function Tickets() { ... }`: Define el componente funcional `Tickets` que se exporta por defecto.
-
-- `<main>`: Crea un elemento `main` en el DOM, que generalmente se utiliza para el contenido principal de la página.
-
-- `<nav>`: Define un elemento `nav` para la navegación dentro de la página.
-
-- `<h2>Tickets</h2>`: Muestra un encabezado de nivel 2 con el texto "Tickets".
-
-- `<p><small>Actualmente abiertos.</small></p>`: Muestra un párrafo con un texto adicional indicando que son tickets actualmente abiertos.
-
-- `<Suspense fallback={<Loading />}>`: Utiliza el componente `Suspense` para gestionar la carga del componente `TicketList`. Si la carga lleva tiempo, se muestra el componente `<Loading />` como retroceso (`fallback`).
-
-- `<TicketList />`: Incluye el componente `TicketList` dentro del bloque de `Suspense`.
-
-#### Archivo: `Loading.jsx`
-
-```jsx
-import React from 'react'
-
-export default function Loading() {
-  return (
-    <main className='text-center'> 
-        <h2 className='text-primary '>Cargando...</h2>
-        <p>Por favor, espere.</p>
-    </main>
-  )
-}
-```
-
-- `export default function Loading() { ... }`: Define el componente funcional `Loading` que se exporta por defecto.
-
-- `<main className='text-center'>`: Crea un elemento `main` en el DOM con la clase CSS `text-center`, centrando el contenido de texto.
-
-- `<h2 className='text-primary '>Cargando...</h2>`: Muestra un encabezado de nivel 2 con el texto "Cargando..." y le aplica la clase `text-primary`.
-
-- `<p>Por favor, espere.</p>`: Muestra un párrafo indicando al usuario que espere mientras se carga el contenido.
+6. **Botón de Estado:**
+   - El botón tiene un estado deshabilitado mientras la solicitud está en curso (`isLoading` es `true`), y muestra un mensaje de carga. Una vez que la carga ha finalizado, muestra el texto "Add Ticket".
